@@ -6,43 +6,66 @@ CREATE TABLE numbers (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     number INT NOT NULL
 );
+show tables;
 
-
-CREATE TABLE t_member (
-    이름
-    아이디
-    패스워드
-    이메일주소
+create table customer_information(
+	customer_idx int auto_increment primary key,
+	customer_name varchar(50) not null,
+	customer_password varchar(50) not null,
+	customer_email varchar(50) not null
 );
 
--- 선수정보 runner_info
-CREATE TABLE t_member (
-    이름
-    나이
-    소속
-    몸무게
-    키
-    승률
+create table athlete_information(
+	athlete_idx int auto_increment primary key,
+	athlete_name varchar(50) not null,
+	athlete_age int not null,
+	athlete_agency varchar(50),
+	athlete_weight int not null,
+	athlete_height int not null,
+	athlete_winrate varchar(50)
+);
+
+create table time_information(
+	time_idx int auto_increment primary key,
+	athlete_idx int,
+	`date` date,
+	`round` int,
+	enforcement varchar(50),
+	foreign key (athlete_idx) references athlete_information(athlete_idx)
+);
+
+create table buy_information (
+    race_number INT AUTO_INCREMENT PRIMARY KEY,
+    win_type  int NOT NULL,
+    athlete_idx INT,
+    betting_money INT NOT NULL,
+    dividends INT NOT NULL,
+    refunds INT not null,
+    foreign key (athlete_idx) references athlete_information(athlete_idx),
+    foreign key (win_type) references betting_type(bet_type_id)
+    
+);
+
+create table betting_type(
+	bet_type_id int auto_increment primary key,
+	bet_type_name ENUM('단승식', '연승식', '쌍승식', '복승식', '복연승식', '삼봉승식') NOT NULL
 );
 
 
--- 시간정보 race_table
-CREATE TABLE t_member (
-    선수명
-    일자
-    회차
-    시행처
+
+create table winner_information(
+	winner_idx int auto_increment primary key,
+	customer_idx int not null,
+	race_number int not null,
+	win_type int not null,
+	betting_money int not null,
+	dividends int not null,
+	refunds int not null,
+	foreign key (customer_idx) references customer_information(customer_idx),
+	foreign key (race_number) references buy_information(race_number),
+	foreign key (win_type) references betting_type(bet_type_id)
 );
 
--- 구매정보 sell
-CREATE TABLE t_member (
-    고객명
-    경주번호
-    승식
-    선수선택(1번~7번)
-    배팅금액
-    배당
-    환불금액
-);
+
 
 

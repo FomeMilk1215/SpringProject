@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>숫자 입력</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>숫자 입력</h1>
+    <form id="numberForm">
+        <label for="number">숫자:</label>
+        <input type="number" id="number" name="number" required>
+        <button type="submit">저장</button>
+    </form>
+
+    <script>
+        $(document).ready(function() {
+            $('#numberForm').on('submit', function(event) {
+                event.preventDefault();
+                var number = $('#number').val();
+
+                $.ajax({
+                    url: '/numbers',
+                    method: 'POST',
+                    data: { number: number },
+                    success: function(response) {
+                        alert(response);
+                    },
+                    error: function(error) {
+                        console.log('Error:', error);
+                        alert('오류가 발생했습니다.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
